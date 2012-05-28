@@ -1,30 +1,57 @@
 package com.pawelniewiadomski.devs.jira.automat;
 
-import com.atlassian.event.api.EventListener;
-import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.event.user.UserEvent;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import com.atlassian.jira.event.user.UserEventListener;
 
-public class UserListener implements InitializingBean, DisposableBean {
-	private final EventPublisher eventPublisher;
+import java.util.Map;
 
-	public UserListener(EventPublisher eventPublisher) {
-		this.eventPublisher = eventPublisher;
-	}
-
-	@EventListener
-	public void onUserEvent(UserEvent userEvent) {
-
+/**
+ * TODO: Document this class / interface here
+ *
+ * @since v5.0.1
+ */
+public class UserListener implements UserEventListener {
+	@Override
+	public void userSignup(UserEvent event) {
 	}
 
 	@Override
-	public void destroy() throws Exception {
-		eventPublisher.unregister(this);
+	public void userCreated(UserEvent event) {
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		eventPublisher.register(this);
+	public void userForgotPassword(UserEvent event) {
+	}
+
+	@Override
+	public void userForgotUsername(UserEvent event) {
+	}
+
+	@Override
+	public void userCannotChangePassword(UserEvent event) {
+	}
+
+	@Override
+	public void init(Map params) {
+	}
+
+	@Override
+	public String[] getAcceptedParams() {
+		return new String[0];
+	}
+
+	@Override
+	public boolean isInternal() {
+		return false;
+	}
+
+	@Override
+	public boolean isUnique() {
+		return false;
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
 	}
 }
