@@ -4,11 +4,11 @@
         <title>$i18n.getText("plugin.configuration.admin.title", $i18n.getText("automat.name"))</title>
         <meta name='decorator' content='atl.admin'/>
         <style type="text/css">
-            div { margin-bottom: 10px; }
-            pre { border-color: #ccc; border-width: 1px; border-style: dashed; padding: 5px 5px 5px 5px; margin: 5px 5px 5px 5px;}
+            .automat .content-container div { margin-bottom: 10px; }
+            .automat .content-container pre { border-color: #ccc; border-width: 1px; border-style: dashed; padding: 5px 5px 5px 5px; margin: 5px 5px 5px 5px;}
         </style>
     </head>
-    <body>
+    <body class="automat">
         <h1>$i18n.getText("plugin.configuration.admin.title", $i18n.getText("automat.name"))</h1>
             ## Because these message may embed html tags that we don't want to be overescaped
             #set($successMessageWithHtml = $successMessage)
