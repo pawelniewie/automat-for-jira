@@ -11,6 +11,16 @@
     </organization>
     <name>Automat</name>
     <description>Automation helper for Atlassian JIRA.</description>
+    <scm>
+        <connection>scm:git:https://bitbucket.org/pawelniewiadomski/automat.git</connection>
+        <developerConnection>scm:git:https://bitbucket.org/pawelniewiadomski/automat.git</developerConnection>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>dropbox</id>
+            <url>file:///Users/pawel/Dropbox/Public/repo</url>
+        </repository>
+    </distributionManagement>
     <packaging>atlassian-plugin</packaging>
     <dependencies>
         <dependency>
