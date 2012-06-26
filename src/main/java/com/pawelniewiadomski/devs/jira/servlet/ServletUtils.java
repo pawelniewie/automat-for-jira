@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.Callable;
 
-class ServletUtils {
+public class ServletUtils {
 
     static void redirectToLogin(LoginUriProvider loginUriProvider, HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
@@ -34,7 +34,7 @@ class ServletUtils {
         }
     }
 
-    static boolean isValidLicense(ThirdPartyPluginLicenseStorageManager licenseManager) throws PluginLicenseStoragePluginUnresolvedException {
+    public static boolean isValidLicense(ThirdPartyPluginLicenseStorageManager licenseManager) throws PluginLicenseStoragePluginUnresolvedException {
         if (licenseManager.getLicense().isDefined())
         {
             for (PluginLicense pluginLicense : licenseManager.getLicense())

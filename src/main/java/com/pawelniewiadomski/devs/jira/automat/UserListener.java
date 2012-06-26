@@ -11,47 +11,47 @@ import java.util.Map;
  * @since v5.0.1
  */
 public class UserListener implements UserEventListener {
-	@Override
-	public void userSignup(UserEvent event) {
-	}
+    @Override
+    public void userSignup(UserEvent event) {
+    }
 
-	@Override
-	public void userCreated(UserEvent event) {
-	}
+    @Override
+    public void userCreated(UserEvent event) {
+    }
 
-	@Override
-	public void userForgotPassword(UserEvent event) {
-	}
+    @Override
+    public void userForgotPassword(UserEvent event) {
+    }
 
-	@Override
-	public void userForgotUsername(UserEvent event) {
-	}
+    @Override
+    public void userForgotUsername(UserEvent event) {
+    }
 
-	@Override
-	public void userCannotChangePassword(UserEvent event) {
-	}
+    @Override
+    public void userCannotChangePassword(UserEvent event) {
+    }
 
-	@Override
-	public void init(Map params) {
-	}
+    @Override
+    public void init(Map params) {
+    }
 
-	@Override
-	public String[] getAcceptedParams() {
-		return new String[0];
-	}
+    @Override
+    public String[] getAcceptedParams() {
+        return new String[0];
+    }
 
-	@Override
-	public boolean isInternal() {
-		return false;
-	}
+    @Override
+    public boolean isInternal() {
+        return false;
+    }
 
-	@Override
-	public boolean isUnique() {
-		return false;
-	}
+    @Override
+    public boolean isUnique() {
+        return false;
+    }
 
-	@Override
-	public String getDescription() {
-		return null;
-	}
+    @Override
+    public String getDescription() {
+        return null;
+    }
 }

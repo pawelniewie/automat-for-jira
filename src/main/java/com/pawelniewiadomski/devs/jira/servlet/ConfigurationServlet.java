@@ -3,7 +3,6 @@ package com.pawelniewiadomski.devs.jira.servlet;
 import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.event.type.EventTypeManager;
 import com.atlassian.jira.user.util.UserUtil;
-import com.atlassian.jira.util.collect.MapBuilder;
 import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.message.I18nResolver;
@@ -11,20 +10,12 @@ import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.templaterenderer.TemplateRenderer;
 import com.atlassian.upm.license.storage.lib.PluginLicenseStoragePluginUnresolvedException;
 import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.pawelniewiadomski.devs.jira.automat.EventUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
@@ -109,10 +100,12 @@ public class ConfigurationServlet extends HttpServlet
                 context.put("errorMessage", i18nResolver.getText("plugin.configuration.admin.invalid.license",
                         URI.create(applicationProperties.getBaseUrl() + LicenseServlet.SERVLET_PATH)));
             }
-            context.put("supportedEvents", getSupportedEvents());
+
+            final Set<EventType> supportedEvents = EventUtils.getSupportedEvents(eventTypeManager);
+            context.put("supportedEvents", supportedEvents);
             context.put("issueCreatedEvent", eventTypeManager.getEventType(EventType.ISSUE_CREATED_ID));
-            context.put("eventExecutables", EventUtils.getExecutableNames(getSupportedEvents()));
-            context.put("executablesDir", new File(applicationProperties.getHomeDirectory(), "automat"));
+            context.put("eventExecutables", EventUtils.getExecutableNames(supportedEvents));
+            context.put("executablesDir", EventUtils.getExecutablesDir(applicationProperties));
             context.put("baseUrl", applicationProperties.getBaseUrl());
         }
         catch (PluginLicenseStoragePluginUnresolvedException e)
@@ -122,19 +115,6 @@ public class ConfigurationServlet extends HttpServlet
         }
 
         return context;
-    }
-
-    @Nonnull
-    private Set<EventType> getSupportedEvents() {
-        return ImmutableSet.copyOf(Iterables.filter(eventTypeManager.getEventTypes(), new Predicate<EventType>() {
-            Set<Long> handled = ImmutableSet.of(EventType.ISSUE_CREATED_ID, EventType.ISSUE_CLOSED_ID,
-                    EventType.ISSUE_DELETED_ID, EventType.ISSUE_RESOLVED_ID);
-
-            @Override
-            public boolean apply(@Nullable EventType o) {
-                return handled.contains(o.getId());
-            }
-        }));
     }
 
     private void handleUnpermittedUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
