@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
-	<plugin-info>
-		<description>${project.description}</description>
-		<version>${project.version}</version>
-		<vendor name="${project.organization.name}" url="${project.organization.url}"/>
-	</plugin-info>
-
-	<component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
-
-	<component key="automatEventListener" class="com.pawelniewiadomski.devs.jira.automat.AutomatListener"/>
-
+  <plugin-info>
+    <description>${project.description}</description>
+    <version>${project.version}</version>
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+    <param name="atlassian-licensing-enabled">true</param>
+    <param name="configure.url">/plugins/servlet/com.pawelniewiadomski.devs.jira.automat/configuration</param>
+  </plugin-info>
+  <component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
+  <component key="automatEventListener" class="com.pawelniewiadomski.devs.jira.automat.AutomatListener"/>
+  <resource type="i18n" name="i18n" location="com.pawelniewiadomski.devs.jira.automat"/>
+  <component-import key="pluginAccessor" interface="com.atlassian.plugin.PluginAccessor"/>
+  <component-import key="pluginController" interface="com.atlassian.plugin.PluginController"/>
+  <component-import key="txTemplate" interface="com.atlassian.sal.api.transaction.TransactionTemplate"/>
+  <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
+  <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer"/>
+  <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>
+  <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider"/>
+  <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager"/>
+  <component-import key="i18nResolver" interface="com.atlassian.sal.api.message.I18nResolver"/>
+  <component key="thirdPartyPluginLicenseStorageManager" class="com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManagerImpl"/>
+  <component key="pluginLicenseStoragePluginInstaller" class="com.atlassian.upm.license.storage.lib.PluginLicenseStoragePluginInstaller"/>
+  <component key="atlassianMarketplaceUriFactory" class="com.atlassian.upm.license.storage.lib.AtlassianMarketplaceUriFactoryImpl"/>
+  <servlet name="License Servlet" i18n-name-key="license-servlet.name" key="license-servlet" class="com.pawelniewiadomski.devs.jira.servlet.LicenseServlet">
+    <description key="license-servlet.description">The License Servlet Plugin</description>
+    <url-pattern>/com.pawelniewiadomski.devs.jira.automat/license</url-pattern>
+  </servlet>
+    <servlet name="Configuration Servlet" i18n-name-key="configuration-servlet.name" key="configuration-servlet"
+             class="com.pawelniewiadomski.devs.jira.servlet.ConfigurationServlet">
+        <description key="configuration-servlet.description">The Configuration Servlet Plugin</description>
+        <url-pattern>/com.pawelniewiadomski.devs.jira.automat/configuration</url-pattern>
+    </servlet>
 </atlassian-plugin>

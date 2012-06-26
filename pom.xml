@@ -6,11 +6,11 @@
     <artifactId>automat</artifactId>
     <version>1.0-SNAPSHOT</version>
     <organization>
-        <name>Example Company</name>
-        <url>http://www.example.com/</url>
+        <name>Pawel Niewiadomski</name>
+        <url>http://pawelniewiadomski.com/</url>
     </organization>
-    <name>automat</name>
-    <description>This is the com.pawelniewiadomski.devs.jira:automat plugin for Atlassian JIRA.</description>
+    <name>Automat</name>
+    <description>Automation helper for Atlassian JIRA.</description>
     <packaging>atlassian-plugin</packaging>
     <dependencies>
         <dependency>
@@ -48,17 +48,89 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-webdriver-tests</artifactId>
+            <version>${jira.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.8.5</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>2.5.6</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>2.5.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.upm</groupId>
+            <artifactId>plugin-license-storage-lib</artifactId>
+            <version>${upm.license.compatibility.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.upm</groupId>
+            <artifactId>plugin-license-storage-plugin</artifactId>
+            <version>${upm.license.compatibility.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.upm</groupId>
+            <artifactId>licensing-api</artifactId>
+            <version>${upm.license.compatibility.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.upm</groupId>
+            <artifactId>upm-api</artifactId>
+            <version>${upm.license.compatibility.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+            <version>${sal.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.templaterenderer</groupId>
+            <artifactId>atlassian-template-renderer-api</artifactId>
+            <version>${atlassian.templaterenderer.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.osgi</groupId>
+            <artifactId>spring-osgi-core</artifactId>
+            <version>1.1.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.1.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -70,7 +142,22 @@
                 <configuration>
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.version}</productDataVersion>
-                    <instructions/>
+                    <instructions>
+                        <Private-Package>com.atlassian.upm.license.storage.lib*</Private-Package>
+                        <DynamicImport-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}"</DynamicImport-Package>
+                    </instructions>
+                    <bundledArtifacts>
+                        <bundledArtifact>
+                            <groupId>com.atlassian.upm</groupId>
+                            <artifactId>atlassian-universal-plugin-manager-plugin</artifactId>
+                            <version>1.6.3</version>
+                        </bundledArtifact>
+                        <bundledArtifact>
+                            <groupId>com.atlassian.upm</groupId>
+                            <artifactId>plugin-license-storage-plugin</artifactId>
+                            <version>${upm.license.compatibility.version}</version>
+                        </bundledArtifact>
+                    </bundledArtifacts>
                 </configuration>
             </plugin>
             <plugin>
@@ -80,10 +167,30 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-storage-plugin</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <includeArtifactIds>plugin-license-storage-plugin</includeArtifactIds>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <properties>
         <jira.version>5.0</jira.version>
-        <amps.version>3.10.1</amps.version>
+        <amps.version>3.10.2</amps.version>
+        <upm.license.compatibility.version>2.2.1</upm.license.compatibility.version>
+        <sal.api.version>2.4.0</sal.api.version>
+        <atlassian.templaterenderer.version>1.0.5</atlassian.templaterenderer.version>
     </properties>
 </project>
