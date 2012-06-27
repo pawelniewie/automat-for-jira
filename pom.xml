@@ -158,7 +158,6 @@
                     <productDataVersion>${jira.version}</productDataVersion>
                     <instructions>
                         <Private-Package>com.atlassian.upm.license.storage.lib*</Private-Package>
-                        <DynamicImport-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}"</DynamicImport-Package>
                     </instructions>
                     <bundledArtifacts>
                         <bundledArtifact>
@@ -172,6 +171,13 @@
                             <version>${upm.license.compatibility.version}</version>
                         </bundledArtifact>
                     </bundledArtifacts>
+					<!-- Specify what to bundle in the OBR -->
+					<pluginDependencies>
+						<pluginDependency>
+							<groupId>com.atlassian.upm</groupId>
+							<artifactId>plugin-license-storage-plugin</artifactId>
+						</pluginDependency>
+					</pluginDependencies>
                 </configuration>
             </plugin>
             <plugin>
