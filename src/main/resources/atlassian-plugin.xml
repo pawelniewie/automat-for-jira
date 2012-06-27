@@ -7,6 +7,9 @@
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>
     <param name="atlassian-licensing-enabled">true</param>
     <param name="configure.url">/plugins/servlet/com.pawelniewiadomski.devs.jira.automat/configuration</param>
+      <param name="plugin-icon">marketing/Icon-16.png</param>
+      <param name="plugin-logo">marketing/Icon-72.png</param>
+      <param name="plugin-banner">marketing/banner.png</param>
   </plugin-info>
   <component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
   <component key="automatEventListener" class="com.pawelniewiadomski.devs.jira.automat.AutomatListener"/>
