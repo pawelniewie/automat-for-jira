@@ -1,5 +1,6 @@
 package com.pawelniewiadomski.devs.jira.servlet;
 
+import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.upm.api.license.entity.PluginLicense;
@@ -43,5 +44,10 @@ public class ServletUtils {
             }
         }
         return false;
+    }
+
+    public static URI getLicenseAdminUrl(ApplicationProperties applicationProperties, ThirdPartyPluginLicenseStorageManager licenseManager) throws PluginLicenseStoragePluginUnresolvedException {
+        return licenseManager.isUpmLicensingAware() ? licenseManager.getPluginManagementUri()
+                : URI.create(applicationProperties.getBaseUrl() + LicenseServlet.SERVLET_PATH);
     }
 }

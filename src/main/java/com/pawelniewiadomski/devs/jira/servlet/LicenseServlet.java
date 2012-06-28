@@ -181,7 +181,7 @@ public class LicenseServlet extends HttpServlet
 
     private void addEligibleMarketplaceButtons(Map<String, Object> context)
     {
-        URI servletUri = URI.create(applicationProperties.getBaseUrl() + "/plugins/servlet/com.pawelniewiadomski.devs.jira.automat/license");
+        URI servletUri = URI.create(applicationProperties.getBaseUrl() + SERVLET_PATH);
 
         try
         {

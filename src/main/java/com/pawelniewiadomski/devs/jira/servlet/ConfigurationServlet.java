@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.hasAdminPermission;
-import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.isValidLicense;
-import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.redirectToLogin;
+import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.*;
 
 public class ConfigurationServlet extends HttpServlet
 {
@@ -96,9 +94,11 @@ public class ConfigurationServlet extends HttpServlet
 
         try
         {
+            context.put("upmLicensingAware", licenseManager.isUpmLicensingAware());
+
             if (!isValidLicense(licenseManager)) {
                 context.put("errorMessage", i18nResolver.getText("plugin.configuration.admin.invalid.license",
-                        URI.create(applicationProperties.getBaseUrl() + LicenseServlet.SERVLET_PATH)));
+                        getLicenseAdminUrl(applicationProperties, licenseManager)));
             }
 
             final Set<EventType> supportedEvents = EventUtils.getSupportedEvents(eventTypeManager);
@@ -107,6 +107,7 @@ public class ConfigurationServlet extends HttpServlet
             context.put("eventExecutables", EventUtils.getExecutableNames(supportedEvents));
             context.put("executablesDir", EventUtils.getExecutablesDir(applicationProperties));
             context.put("baseUrl", applicationProperties.getBaseUrl());
+            context.put("licenseAdminUrl", getLicenseAdminUrl(applicationProperties, licenseManager));
         }
         catch (PluginLicenseStoragePluginUnresolvedException e)
         {

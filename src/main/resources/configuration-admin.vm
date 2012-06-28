@@ -35,7 +35,7 @@
             </div>
             <div>
                 For example to handle "$issueCreatedEvent.getTranslatedName($currentUser)" event you need create a file called $eventExecutables.get($issueCreatedEvent.id).
-                This file will be executed with following arguments:
+                This file will be executed with the following arguments:
                 <pre>$eventExecutables.get($issueCreatedEvent.id) $baseUrl "TST-1" "admin"</pre>
                 First will be JIRA base URL, followed by issue key, followed by user performing the action.
             </div>
@@ -60,6 +60,10 @@
                 #end
                 </tbody>
             </table>
+            #if (!$upmLicensingAware)
+                <h4>License</h4>
+                Manage <a href="$licenseAdminUrl">your license</a>.
+            #end
             #end
     </body>
 </html>
