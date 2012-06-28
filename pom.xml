@@ -217,7 +217,7 @@
     <properties>
         <jira.version>5.0</jira.version>
         <amps.version>3.10.2</amps.version>
-        <upm.license.compatibility.version>2.2.1</upm.license.compatibility.version>
+        <upm.license.compatibility.version>2.3</upm.license.compatibility.version>
         <sal.api.version>2.4.0</sal.api.version>
         <atlassian.templaterenderer.version>1.0.5</atlassian.templaterenderer.version>
     </properties>
