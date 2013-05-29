@@ -24,7 +24,7 @@ public class EventUtils {
 			.put(UserEventType.USER_FORGOTUSERNAME, "userForgotUsername")
 			.put(UserEventType.USER_CANNOTCHANGEPASSWORD, "cannotChangePassword")
 			.put(UserEventType.USER_LOGIN, "userLogin")
-			.put(UserEventType.USER_LOGOUT, "userLogout").build();
+			.build();
 
 	@Nonnull
     public static Map<Long, String> getExecutableNames(Set<EventType> events) {

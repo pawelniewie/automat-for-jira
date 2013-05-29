@@ -1,6 +1,7 @@
 package com.pawelniewiadomski.devs.jira.automat;
 
 import com.atlassian.crowd.embedded.api.User;
+import com.atlassian.jira.event.ListenerManager;
 import com.atlassian.jira.event.user.UserEvent;
 import com.atlassian.jira.event.user.UserEventListener;
 import com.atlassian.sal.api.ApplicationProperties;
@@ -9,6 +10,8 @@ import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManag
 import com.pawelniewiadomski.devs.jira.servlet.ServletUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nonnull;
@@ -17,7 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class UserListener implements UserEventListener {
+public class UserListener implements UserEventListener, InitializingBean, DisposableBean {
+	private final static String NAME = "Automat User Listener";
     private final static Logger log = Logger.getLogger(UserListener.class);
 
 	@Autowired
@@ -25,6 +29,10 @@ public class UserListener implements UserEventListener {
 
 	@Autowired
 	private ApplicationProperties applicationProperties;
+
+	@Autowired
+	private ListenerManager listenerManager;
+
 
 	private boolean isValidLicense() {
 		try {
@@ -110,11 +118,21 @@ public class UserListener implements UserEventListener {
 
     @Override
     public boolean isUnique() {
-        return false;
+        return true;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "This is automatically created Automat User Listener, don't remove.";
     }
+
+	@Override
+	public void destroy() throws Exception {
+		listenerManager.deleteListener(getClass());
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		listenerManager.createListener(NAME, getClass());
+	}
 }
