@@ -7,12 +7,9 @@ import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.event.type.EventTypeManager;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.sal.api.ApplicationProperties;
-import com.atlassian.upm.license.storage.lib.PluginLicenseStoragePluginUnresolvedException;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.pawelniewiadomski.devs.jira.servlet.ServletUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,15 +24,15 @@ public class AutomatListener implements InitializingBean, DisposableBean {
     private final EventPublisher eventPublisher;
     private final EventTypeManager eventTypeManager;
     private final ApplicationProperties applicationProperties;
-    private final ThirdPartyPluginLicenseStorageManager licenseManager;
+    private final AutomatLicense automatLicense;
 
-    public AutomatListener(EventPublisher eventPublisher, EventTypeManager eventTypeManager, ApplicationProperties applicationProperties, ThirdPartyPluginLicenseStorageManager licenseManager) {
+    public AutomatListener(EventPublisher eventPublisher, EventTypeManager eventTypeManager, ApplicationProperties applicationProperties,
+                           AutomatLicense automatLicense) {
         this.eventPublisher = eventPublisher;
         this.eventTypeManager = eventTypeManager;
         this.applicationProperties = applicationProperties;
-        this.licenseManager = licenseManager;
-
 //        log.setLevel(Level.ALL);
+        this.automatLicense = automatLicense;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class AutomatListener implements InitializingBean, DisposableBean {
             }
         }));
 
-        if (supportedEvents.contains(eventTypeId) && isValidLicense()) {
+        if (supportedEvents.contains(eventTypeId) && automatLicense.isValidLicense()) {
             executeCommand(EventUtils.getExecutableName(eventType), baseUrl, issue.getKey(), issueEvent.getUser() != null ? issueEvent.getUser().getName() : "");
         }
     }
@@ -83,14 +80,6 @@ public class AutomatListener implements InitializingBean, DisposableBean {
             });
         } catch (IOException e) {
             log.error("Unable to execute command " + commandPath, e);
-        }
-    }
-
-    private boolean isValidLicense() {
-        try {
-            return ServletUtils.isValidLicense(licenseManager);
-        } catch (PluginLicenseStoragePluginUnresolvedException e) {
-            return false;
         }
     }
 

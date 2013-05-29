@@ -13,7 +13,8 @@
 	</plugin-info>
 	<component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
 	<component key="automatEventListener" class="com.pawelniewiadomski.devs.jira.automat.AutomatListener"/>
-	<component key="userEventListener" class="com.pawelniewiadomski.devs.jira.automat.UserListener"/>
+    <component key="automatLicense" class="com.pawelniewiadomski.devs.jira.automat.AutomatLicense"/>
+	<component key="userEventListener" class="com.pawelniewiadomski.devs.jira.automat.RegisterListenersComponent"/>
 	<component key="springContext" class="com.pawelniewiadomski.devs.jira.automat.SpringContext"/>
 	<resource type="i18n" name="i18n" location="com.pawelniewiadomski.devs.jira.automat"/>
 	<component-import key="pluginAccessor" interface="com.atlassian.plugin.PluginAccessor"/>

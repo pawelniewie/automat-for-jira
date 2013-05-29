@@ -1,17 +1,12 @@
 package com.pawelniewiadomski.devs.jira.automat;
 
 import com.atlassian.crowd.embedded.api.User;
-import com.atlassian.jira.event.ListenerManager;
 import com.atlassian.jira.event.user.UserEvent;
 import com.atlassian.jira.event.user.UserEventListener;
 import com.atlassian.sal.api.ApplicationProperties;
-import com.atlassian.upm.license.storage.lib.PluginLicenseStoragePluginUnresolvedException;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
-import com.pawelniewiadomski.devs.jira.servlet.ServletUtils;
+import com.google.common.collect.Iterables;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,27 +14,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class UserListener implements UserEventListener, InitializingBean, DisposableBean {
-	private final static String NAME = "Automat User Listener";
+public class UserListener implements UserEventListener {
+	public final static String NAME = "Automat User Listener";
     private final static Logger log = Logger.getLogger(UserListener.class);
-
-	private final ApplicationProperties applicationProperties;
-
-	private final ListenerManager listenerManager;
-
-	public UserListener(ApplicationProperties applicationProperties, ListenerManager listenerManager) {
-		this.applicationProperties = applicationProperties;
-		this.listenerManager = listenerManager;
-	}
-
-	private boolean isValidLicense() {
-		try {
-			return ServletUtils.isValidLicense(
-					(ThirdPartyPluginLicenseStorageManager) SpringContext.getApplicationContext().getBeansOfType(ThirdPartyPluginLicenseStorageManager.class));
-		} catch (PluginLicenseStoragePluginUnresolvedException e) {
-			return false;
-		}
-	}
+    private AutomatLicense automatLicense;
+    private ApplicationProperties applicationProperties;
 
     @Override
     public void userSignup(UserEvent event) {
@@ -49,7 +28,7 @@ public class UserListener implements UserEventListener, InitializingBean, Dispos
     private void processEvent(UserEvent event) {
 		final String baseUrl = applicationProperties.getBaseUrl();
         log.debug(event.toString());
-		if (isValidLicense()) {
+		if (automatLicense.isValidLicense()) {
 			executeCommand(EventUtils.getExecutableName(event.getEventType()), baseUrl, getUsername(
 					event.getInitiatingUser()),
 					getUsername(event.getUser()));
@@ -103,6 +82,9 @@ public class UserListener implements UserEventListener, InitializingBean, Dispos
     @Override
     public void init(Map params) {
         log.setLevel(Level.ALL);
+        
+        automatLicense = Iterables.<AutomatLicense>getFirst(SpringContext.getApplicationContext().getBeansOfType(AutomatLicense.class).values(), null);
+        applicationProperties = Iterables.<ApplicationProperties>getFirst(SpringContext.getApplicationContext().getBeansOfType(ApplicationProperties.class).values(), null);
     }
 
     @Override
@@ -124,14 +106,4 @@ public class UserListener implements UserEventListener, InitializingBean, Dispos
     public String getDescription() {
         return "This is automatically created Automat User Listener, don't remove.";
     }
-
-	@Override
-	public void destroy() throws Exception {
-		listenerManager.deleteListener(getClass());
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		listenerManager.createListener(NAME, getClass());
-	}
 }
