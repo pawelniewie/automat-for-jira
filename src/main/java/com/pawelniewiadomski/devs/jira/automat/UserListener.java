@@ -12,7 +12,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,19 +23,19 @@ public class UserListener implements UserEventListener, InitializingBean, Dispos
 	private final static String NAME = "Automat User Listener";
     private final static Logger log = Logger.getLogger(UserListener.class);
 
-	@Autowired
-	private ThirdPartyPluginLicenseStorageManager licenseManager;
+	private final ApplicationProperties applicationProperties;
 
-	@Autowired
-	private ApplicationProperties applicationProperties;
+	private final ListenerManager listenerManager;
 
-	@Autowired
-	private ListenerManager listenerManager;
-
+	public UserListener(ApplicationProperties applicationProperties, ListenerManager listenerManager) {
+		this.applicationProperties = applicationProperties;
+		this.listenerManager = listenerManager;
+	}
 
 	private boolean isValidLicense() {
 		try {
-			return ServletUtils.isValidLicense(licenseManager);
+			return ServletUtils.isValidLicense(
+					(ThirdPartyPluginLicenseStorageManager) SpringContext.getApplicationContext().getBeansOfType(ThirdPartyPluginLicenseStorageManager.class));
 		} catch (PluginLicenseStoragePluginUnresolvedException e) {
 			return false;
 		}

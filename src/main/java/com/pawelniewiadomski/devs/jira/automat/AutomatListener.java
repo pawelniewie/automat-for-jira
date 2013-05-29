@@ -2,8 +2,6 @@ package com.pawelniewiadomski.devs.jira.automat;
 
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
-import com.atlassian.jira.ComponentManager;
-import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.event.issue.IssueEvent;
 import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.event.type.EventTypeManager;
@@ -15,7 +13,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.pawelniewiadomski.devs.jira.servlet.ServletUtils;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
