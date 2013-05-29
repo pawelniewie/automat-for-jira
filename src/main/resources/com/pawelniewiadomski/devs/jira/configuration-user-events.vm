@@ -1,0 +1,21 @@
+
+<table class="aui">
+    <thead>
+		<tr>
+			<th>Event</th>
+			<th>Executable</th>
+		</tr>
+    </thead>
+    <tbody>
+		#foreach($eventType in $supportedUserEvents)
+        <tr>
+            <td>
+				$userEventNames.get($eventType)
+            </td>
+            <td>
+				$userEventExecutables.get($eventType)
+            </td>
+        </tr>
+		#end
+    </tbody>
+</table>

@@ -1,0 +1,20 @@
+<table class="aui">
+    <thead>
+		<tr>
+			<th>Event</th>
+			<th>Executable</th>
+		</tr>
+    </thead>
+    <tbody>
+		#foreach($eventType in $supportedEvents)
+        <tr>
+            <td>$eventType.getTranslatedName($currentUser)
+                <div class="description">$eventType.getTranslatedDesc($currentUser)</div>
+            </td>
+            <td>
+				$eventExecutables.get($eventType.id)
+            </td>
+        </tr>
+		#end
+    </tbody>
+</table>

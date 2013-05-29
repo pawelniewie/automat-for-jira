@@ -26,7 +26,7 @@ import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.*;
 
 public class ConfigurationServlet extends HttpServlet
 {
-    private static final String TEMPLATE = "configuration-admin.vm";
+    private static final String TEMPLATE = "com/pawelniewiadomski/devs/jira/configuration-admin.vm";
     public static final String SERVLET_PATH = "/plugins/servlet/com.pawelniewiadomski.devs.jira.automat/configuration";
 
     private final ThirdPartyPluginLicenseStorageManager licenseManager;
@@ -108,6 +108,11 @@ public class ConfigurationServlet extends HttpServlet
             context.put("executablesDir", EventUtils.getExecutablesDir(applicationProperties));
             context.put("baseUrl", applicationProperties.getBaseUrl());
             context.put("licenseAdminUrl", getLicenseAdminUrl(applicationProperties, licenseManager));
+
+			final Set<Integer> supportedUserEvents = EventUtils.getSupportedUserEvents();
+			context.put("supportedUserEvents", supportedUserEvents);
+			context.put("userEventExecutables", EventUtils.getUserExecutableNames(supportedUserEvents));
+			context.put("userEventNames", EventUtils.getUserEventNames());
         }
         catch (PluginLicenseStoragePluginUnresolvedException e)
         {

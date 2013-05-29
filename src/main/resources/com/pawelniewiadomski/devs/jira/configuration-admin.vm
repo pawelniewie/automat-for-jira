@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+    <head>
+        <title>$i18n.getText("plugin.configuration.admin.title", $i18n.getText("automat.name"))</title>
+        <meta name='decorator' content='atl.admin'/>
+        <style type="text/css">
+            .automat .content-container div { margin-bottom: 10px; }
+            .automat .content-container pre { border-color: #ccc; border-width: 1px; border-style: dashed; padding: 5px 5px 5px 5px; margin: 5px 5px 5px 5px;}
+        </style>
+    </head>
+    <body class="automat">
+		<header class="aui-page-header">
+			<div class="aui-page-header-inner">
+				<div class="aui-page-header-main">
+					<h2>$i18n.getText("plugin.configuration.admin.title", $i18n.getText("automat.name"))</h2>
+				</div>
+			</div>
+		</header>
+
+            ## Because these message may embed html tags that we don't want to be overescaped
+            #set($successMessageWithHtml = $successMessage)
+            #set($errorMessageWithHtml = $errorMessage)
+            #set($warningMessageWithHtml = $warningMessage)
+
+            #set($dateFormat = "MMMM dd, yyyy")
+
+            #if ($successMessageWithHtml)
+            <div class="aui-message success"><span class="aui-icon icon-success"></span>$successMessageWithHtml</div>
+            #end
+            #if ($errorMessageWithHtml)
+            <div class="aui-message error"><span class="aui-icon icon-error"></span>$errorMessageWithHtml</div>
+            #end
+            #if ($warningMessageWithHtml)
+            <div class="aui-message warning"><span class="aui-icon icon-warning"></span>$warningMessageWithHtml</div>
+            #end
+
+            #if ($displayAdminUi)
+				<h4>How to use</h4>
+				<div>
+					This plugin lets you run executables in response to selected JIRA events. For each selected event you can create an executable, it will be executed each time
+					JIRA sends a notification.
+				</div>
+				<div>
+					For example to handle "$issueCreatedEvent.getTranslatedName($currentUser)" event you need create a file called $eventExecutables.get($issueCreatedEvent.id).
+					This file will be executed with the following arguments:
+					<pre>$eventExecutables.get($issueCreatedEvent.id) $baseUrl "TST-1" "admin"</pre>
+					First will be JIRA base URL, followed by issue key, followed by user performing the action.
+				</div>
+				<div class="aui-message info"><span class="aui-icon icon-info"></span>Executables should be put into $executablesDir directory.</div>
+
+				<div class="aui-tabs horizontal-tabs" id="tabs-events">
+					<ul class="tabs-menu">
+						<li class="menu-item active-tab">
+							<a href="#tabs-events-first"><strong>Issue Events</strong></a>
+						</li>
+						<li class="menu-item">
+							<a href="#tabs-events-second"><strong>User Events</strong></a>
+						</li>
+					</ul>
+					<div class="tabs-pane active-pane" id="tabs-events-first">
+						#parse("/com/pawelniewiadomski/devs/jira/configuration-issue-events.vm")
+					</div>
+					<div class="tabs-pane" id="tabs-events-second">
+						#parse("/com/pawelniewiadomski/devs/jira/configuration-user-events.vm")
+					</div>
+				</div>
+
+				#if (!$upmLicensingAware)
+                	<h4>License</h4>
+                	Manage <a href="$licenseAdminUrl">your license</a>.
+				#end
+            #end
+    </body>
+</html>

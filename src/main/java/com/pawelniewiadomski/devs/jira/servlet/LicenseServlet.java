@@ -39,7 +39,7 @@ import static com.pawelniewiadomski.devs.jira.servlet.ServletUtils.redirectToLog
  */
 public class LicenseServlet extends HttpServlet
 {
-    private static final String TEMPLATE = "license-admin.vm";
+    private static final String TEMPLATE = "com/pawelniewiadomski/devs/jira/license-admin.vm";
     public static final String SERVLET_PATH = "/plugins/servlet/com.pawelniewiadomski.devs.jira.automat/license";
 
     private final ThirdPartyPluginLicenseStorageManager licenseManager;
