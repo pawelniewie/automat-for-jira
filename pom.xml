@@ -177,14 +177,14 @@
 							<groupId>com.atlassian.upm</groupId>
 							<artifactId>plugin-license-storage-plugin</artifactId>
 						</pluginDependency>
-					</pluginDependencies>
+					</pluginDependencies-->
                     <pluginArtifacts>
                         <pluginArtifact>
                             <groupId>com.atlassian.upm</groupId>
                             <artifactId>atlassian-universal-plugin-manager-plugin</artifactId>
                             <version>2.3</version>
                         </pluginArtifact>
-                    </pluginArtifacts-->
+                    </pluginArtifacts>
                 </configuration>
             </plugin>
             <plugin>
