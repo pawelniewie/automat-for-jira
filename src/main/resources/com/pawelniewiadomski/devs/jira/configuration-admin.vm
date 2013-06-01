@@ -7,6 +7,8 @@
             .automat .content-container div { margin-bottom: 10px; }
             .automat .content-container pre { border-color: #ccc; border-width: 1px; border-style: dashed; padding: 5px 5px 5px 5px; margin: 5px 5px 5px 5px;}
         </style>
+        <meta name="admin.active.section" content="admin_system_menu/advanced_menu_section/advanced_section">
+        <meta name="admin.active.tab" content="automat">
     </head>
     <body class="automat">
 		<header class="aui-page-header">

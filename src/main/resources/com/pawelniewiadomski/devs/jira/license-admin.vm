@@ -3,6 +3,8 @@
     <head>
         <title>$i18n.getText("plugin.license.storage.admin.title", $i18n.getText("automat.name"))</title>
         <meta name='decorator' content='atl.admin'/>
+        <meta name="admin.active.section" content="admin_system_menu/advanced_menu_section/advanced_section">
+        <meta name="admin.active.tab" content="automat">
     </head>
     <body>
         <h1>$i18n.getText("plugin.license.storage.admin.title", $i18n.getText("automat.name"))</h1>
