@@ -1,5 +1,6 @@
 package com.pawelniewiadomski.devs.jira.automat;
 
+import com.atlassian.jira.config.util.JiraHome;
 import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.event.type.EventTypeManager;
 import com.atlassian.jira.event.user.UserEventType;
@@ -23,7 +24,8 @@ public class EventUtils {
 			.put(UserEventType.USER_FORGOTPASSWORD, "userForgotPassword")
 			.put(UserEventType.USER_FORGOTUSERNAME, "userForgotUsername")
 			.put(UserEventType.USER_CANNOTCHANGEPASSWORD, "cannotChangePassword")
-			.put(UserEventType.USER_LOGIN, "userLogin")
+//          .put(UserEventType.USER_LOGOUT, "userLogout")
+//			.put(UserEventType.USER_LOGIN, "userLogin")
 			.build();
 
 	@Nonnull
@@ -74,6 +76,10 @@ public class EventUtils {
 
     public static File getExecutablesDir(ApplicationProperties applicationProperties) {
         return new File(applicationProperties.getHomeDirectory(), "automat");
+    }
+
+    public static File getExecutablesDir(JiraHome jiraHome) {
+        return new File(jiraHome.getHome(), "automat");
     }
 
 	public static Map<Integer, String> getUserEventNames() {

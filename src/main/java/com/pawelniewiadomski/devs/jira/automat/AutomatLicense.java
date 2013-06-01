@@ -13,7 +13,8 @@ public class AutomatLicense {
     public boolean isValidLicense() {
         try {
             try {
-                final ThirdPartyPluginLicenseStorageManager licenseManager = Iterables.<ThirdPartyPluginLicenseStorageManager>getFirst(SpringContext.getApplicationContext().getBeansOfType(AutomatLicense.class).values(), null);
+                final ThirdPartyPluginLicenseStorageManager licenseManager = Iterables.<ThirdPartyPluginLicenseStorageManager>getFirst(
+                        SpringContext.getApplicationContext().getBeansOfType(ThirdPartyPluginLicenseStorageManager.class).values(), null);
                 return ServletUtils.isValidLicense(licenseManager);
             } catch (PluginLicenseStoragePluginUnresolvedException e) {
                 return false;
