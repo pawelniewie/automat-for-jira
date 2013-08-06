@@ -7,7 +7,7 @@ You can find full list of supported events on plugin's configuration page.
 
 [Check out tutorial](http://pawelniewiadomski.pl/post/45135045732/jira-events-can-execute-external-programs)
 
-The source code is provided for [licensees only]().
+The source code is provided for licensees only.
 
 # License
 This is not open source plugin. It's licensed to paid customers only. You can purchase license at [Marketplace](https://marketplace.atlassian.com/plugins/com.pawelniewiadomski.devs.jira.automat)
