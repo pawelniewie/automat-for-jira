@@ -5,6 +5,6 @@ For example you can run a script when issue is updated, or created, or commented
 
 You can find full list of supported events on plugin's configuration page.
 
-[Check out tutorial]|(http://pawelniewiadomski.pl/post/45135045732/jira-events-can-execute-external-programs)
+[Check out tutorial](http://pawelniewiadomski.pl/post/45135045732/jira-events-can-execute-external-programs)
 
-The source code is provided for [licensees only]|(LICENSE.md).
+The source code is provided for [licensees only](LICENSE.md).
